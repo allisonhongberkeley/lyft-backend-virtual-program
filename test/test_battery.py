@@ -2,8 +2,7 @@ import os, sys
 import unittest
 from datetime import datetime
 
-p = os.path.abspath('..')
-sys.path.insert(1, p)
+sys.path.append('../')
 
 from battery.spindler_battery import SpindlerBattery
 from battery.nubbin_battery import NubbinBattery
@@ -11,9 +10,18 @@ from battery.nubbin_battery import NubbinBattery
 class BatteryTest(unittest.TestCase):
     def test_spindler_should_be_serviced(self):
         today = datetime.today().date()
-        last_service_date = today.replace(year=today.year-3)
+        last_service_date = today.replace(year=today.year-4)
         spindler = SpindlerBattery(today, last_service_date)
         self.assertTrue(spindler.needs_service())
+
+    def test_spindler_should_not_be_serviced(self):
+        today = datetime.today().date()
+        last_service_date = today.replace(year=today.year-3)
+        spindler = SpindlerBattery(today, last_service_date)
+        self.assertFalse(spindler.needs_service())
+
+        spindler.last_service_date = today.replace(year=today.year-2)
+        self.assertFalse(spindler.needs_service())
     
     def test_nubbin_should_be_serviced(self):
         today = datetime.today().date()

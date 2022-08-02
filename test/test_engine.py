@@ -2,8 +2,7 @@ import sys, os
 import unittest
 from datetime import datetime
 
-p = os.path.abspath('..')
-sys.path.insert(1, p)
+sys.path.append('../')
 
 from engine.capulet_engine import CapuletEngine
 from engine.willoughby_engine import WilloughbyEngine
